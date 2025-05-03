@@ -5,10 +5,22 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 import TodoList from "./TodoList";
 
-function App() {
-  const [todos, setTodos] = useState ([]);
+export type Todo = {
+  id: number,
+  text: string;
+  isCompleted: boolean;
+};
 
-  const handleAddTodo = (todoText) => {
+function App() {
+  // STATE
+  const [todos, setTodos] = useState <Todo[]>([]);
+
+  // DERIVED STATE
+  const totalTodos = todos.length;
+  const completedTodos = todos.filter((x) => x.isCompleted).length;
+
+  // EVENT HANDLERS
+  const handleAddTodo = (todoText: string) => {
     if (todos.length >= 3) {
       alert("You must be logged in to have more than 3 todos.");
       return;
@@ -25,7 +37,7 @@ function App() {
     
   };
 
-  const handleToggleTodo = (id) => {
+  const handleToggleTodo = (id: number) => {
     setTodos(
       todos.map((t) => {
         if (t.id === id) { 
@@ -34,9 +46,9 @@ function App() {
         return t;
       })
     );
-  }
+  };
 
-  const handleDeleteTodo = (id) => {
+  const handleDeleteTodo = (id: number) => {
     setTodos( (prev) => prev.filter((todo) => todo.id !== id));
   };
   
@@ -45,11 +57,11 @@ function App() {
         <BackgroundHeading />
         
         <main className="relative w-[972px] h-[636px] bg-white rounded-[8px] shadow-[0_4px_4px_rgba(0,0,0,0.08) grid grid-cols-[7fr_4fr] grid-rows-[59px_1fr] overflow-hidden">
-          <Header todos={todos} setTodos={setTodos}/>
+          <Header totalTodos={totalTodos} completedTodos={completedTodos} />
 
-          <TodoList todos={todos} setTodos={setTodos} handleToggleTodo={handleToggleTodo} handleDeleteTodo={handleDeleteTodo} />
+          <TodoList todos={todos} handleToggleTodo={handleToggleTodo} handleDeleteTodo={handleDeleteTodo} />
 
-          <Sidebar todos={todos} setTodos={setTodos} handleAddTodo={handleAddTodo}/>
+          <Sidebar handleAddTodo={handleAddTodo}/>
         </main>
 
         <Footer />       
