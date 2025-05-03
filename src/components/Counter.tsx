@@ -1,7 +1,10 @@
-import { useState } from "react"
+type CounterProps = {
+  totalTodos: number;
+  completedTodos: number;
+};
 
-export default function Counter({ todos }) {
+export default function Counter({ totalTodos, completedTodos }: CounterProps) {
   return (
-    <p> <b> {todos.filter((x) => x.isCompleted).length} </b> / {todos.length} to dos completed</p>
+    <p> <b> {completedTodos} </b> / {totalTodos} to dos completed</p>
   )
 }
