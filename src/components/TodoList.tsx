@@ -1,12 +1,9 @@
+import { useTodosContext } from "../contexts/hooks";
 import DeleteButton from "./DeleteButton";
-import { Todo } from "./App";
 
-type TodoListProps = {
-  todos: Todo[];
-  handleToggleTodo: (id: number) => void;
-  handleDeleteTodo: (id: number) => void;
-}
-export default function TodoList({ todos, handleToggleTodo, handleDeleteTodo }: TodoListProps) {
+export default function TodoList() {
+  const { todos, handleToggleTodo, handleDeleteTodo} = useTodosContext();
+
   return (
     <ul>
       {
@@ -23,7 +20,7 @@ export default function TodoList({ todos, handleToggleTodo, handleDeleteTodo }: 
             >
               {todo.text}
             </span>
-            <DeleteButton id = {todo.id} handleDeleteTodo={handleDeleteTodo} />
+            <DeleteButton id = {todo.id} onDeleteTodo={handleDeleteTodo} />
           </li>
         ))
       }

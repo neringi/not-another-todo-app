@@ -1,13 +1,14 @@
-type DeleteButtonProps = {
-    id: number,
-    handleDeleteTodo: (id: number) => void;
-}
-export default function DeleteButton({ id, handleDeleteTodo }: DeleteButtonProps) {
+export type DeleteButtonProps = {
+  id: number,
+  onDeleteTodo: (id: number) => void;
+};
+
+export default function DeleteButton({ id, onDeleteTodo }: DeleteButtonProps) {
   return (
     <button
     onClick={(e)=> {
         e.stopPropagation();
-        handleDeleteTodo(id);
+        onDeleteTodo(id);
     }}>🗑️</button>
   )
 }
