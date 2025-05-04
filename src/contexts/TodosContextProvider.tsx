@@ -1,0 +1,74 @@
+import { createContext, useState } from 'react';
+import { Todo } from "../lib/types";
+
+type TodosContextProviderProps = {
+    children: React.ReactNode;
+}
+
+type TTodosContext = {
+    todos: Todo[],
+    totalTodos: number,
+    completedTodos: number,
+    handleAddTodo: (todoText:string) => void,
+    handleToggleTodo: (id:number) => void,
+    handleDeleteTodo: (id:number) => void,
+}
+export const TodosContext = createContext<TTodosContext | null>(null);
+
+export default function TodosContextProvider({ children }: TodosContextProviderProps) {
+    // STATE
+  const [todos, setTodos] = useState <Todo[]>([]);
+
+  // DERIVED STATE
+  const totalTodos = todos.length;
+  const completedTodos = todos.filter((x) => x.isCompleted).length;
+
+  // EVENT HANDLERS
+  const handleAddTodo = (todoText: string) => {
+    if (todos.length >= 3) {
+      alert("You must be logged in to have more than 3 todos.");
+      return;
+    } else {
+      setTodos((prev) => [
+        ...prev,
+        {
+          id: prev.length + 1,
+          text: todoText,
+          isCompleted: false,
+        },
+      ]);
+    }
+    
+  };
+
+  const handleToggleTodo = (id: number) => {
+    setTodos(
+      todos.map((t) => {
+        if (t.id === id) { 
+          return { ...t, isCompleted: !t.isCompleted }
+        }
+        return t;
+      })
+    );
+  };
+
+  const handleDeleteTodo = (id: number) => {
+    setTodos( (prev) => prev.filter((todo) => todo.id !== id));
+  };
+
+  return (
+    <TodosContext.Provider
+        value = {{
+            todos,
+            totalTodos,
+            completedTodos,
+            handleAddTodo,
+            handleToggleTodo,
+            handleDeleteTodo,
+        }}
+    >
+        { children }
+    </TodosContext.Provider>
+  );
+}
+
