@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState } from 'react';
 import { Todo } from "../lib/types";
-import { isAuthenticated } from '@kinde-oss/kinde-auth-react/utils';
 import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
 
 type TodosContextProviderProps = {
