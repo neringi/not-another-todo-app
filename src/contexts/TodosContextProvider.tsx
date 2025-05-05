@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { Todo } from "../lib/types";
 
 type TodosContextProviderProps = {
@@ -23,6 +23,17 @@ export default function TodosContextProvider({ children }: TodosContextProviderP
   const totalTodos = todos.length;
   const completedTodos = todos.filter((x) => x.isCompleted).length;
 
+  // SIDE EFFECTS
+  useEffect( () => {
+    const fetchTodos = async () => {
+       const response = await fetch("https://bytegrad.com/course-assets/api/todos");
+       const todos = await response.json();
+       setTodos(todos);
+    };
+    fetchTodos();
+    
+  },[]);
+
   // EVENT HANDLERS
   const handleAddTodo = (todoText: string) => {
     if (todos.length >= 3) {
@@ -38,7 +49,6 @@ export default function TodosContextProvider({ children }: TodosContextProviderP
         },
       ]);
     }
-    
   };
 
   const handleToggleTodo = (id: number) => {
