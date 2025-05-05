@@ -15,24 +15,41 @@ type TTodosContext = {
 }
 export const TodosContext = createContext<TTodosContext | null>(null);
 
+const getInitialTodos = () => {
+    const savedTodos = localStorage.getItem("todos");
+    if (savedTodos) {
+        return JSON.parse(savedTodos);
+    } else {
+        return [];
+    }
+}
 export default function TodosContextProvider({ children }: TodosContextProviderProps) {
+
+    
+
+
     // STATE
-  const [todos, setTodos] = useState <Todo[]>([]);
+  const [todos, setTodos] = useState <Todo[]>(getInitialTodos);
 
   // DERIVED STATE
   const totalTodos = todos.length;
   const completedTodos = todos.filter((x) => x.isCompleted).length;
 
   // SIDE EFFECTS
-  useEffect( () => {
-    const fetchTodos = async () => {
-       const response = await fetch("https://bytegrad.com/course-assets/api/todos");
-       const todos = await response.json();
-       setTodos(todos);
-    };
-    fetchTodos();
-    
-  },[]);
+  // example of fetching data from an api to populate todos list as you load page
+//   useEffect( () => {
+//     const fetchTodos = async () => {
+//        const response = await fetch("https://bytegrad.com/course-assets/api/todos");
+//        const todos = await response.json();
+//        setTodos(todos);
+//     };
+//     fetchTodos();
+//   },[]);
+
+    // as todos is updated, data is written to localStorage
+    useEffect(() => {
+        localStorage.setItem("todos", JSON.stringify(todos));
+    }, [todos]);
 
   // EVENT HANDLERS
   const handleAddTodo = (todoText: string) => {
