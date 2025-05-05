@@ -10,8 +10,16 @@ createRoot(document.getElementById('root')!).render(
     <KindeProvider
 		clientId="81f9f8fa2a9a49a39b95556ab85e3380"
 		domain="https://neringa.kinde.com"
-		redirectUri="http://localhost:5173"
-		logoutUri="http://localhost:5173"
+		redirectUri= {
+      process.env.NODE_ENV === "production"
+      ? "https://not-another-todo-app.vercel.app"
+      : "http://localhost:5173"
+    }
+		logoutUri= {
+      process.env.NODE_ENV === "production"
+      ? "https://not-another-todo-app.vercel.app"
+      : "http://localhost:5173"
+    }
 	  >
       <TodosContextProvider>
         <App />
