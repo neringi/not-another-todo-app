@@ -12,7 +12,7 @@ export default function TodoList() {
       {todos.map(todo => (
           <li 
             key={todo.id} 
-            className="flex justify-between items-center px-8 h-[50px] text-[14px] cursor-pointer border-b border-black/[8%]"
+            className="flex justify-between items-center px-8 h-[3.125rem] text-[0.875rem] cursor-pointer border-b border-black/[8%]"
             onClick= {() => handleToggleTodo(todo.id)}
           >
             <span 

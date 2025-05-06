@@ -21,7 +21,7 @@ createRoot(document.getElementById('root')!).render(
       : "http://localhost:5173"
     }
 	  >
-      <TodosContextProvider>s
+      <TodosContextProvider>
         <App />
       </TodosContextProvider>
 
